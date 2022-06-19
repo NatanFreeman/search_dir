@@ -22,16 +22,16 @@ use std::fs;
 
 fn main() -> std::io::Result<()> {
     //creates directory we want to search
-    fs::create_dir_all("./some/dir")?;
+    fs::create_dir_all("./some/awesome/really/cool/")?;
+    fs::write("./some/awesome/really/cool/hello.txt", "this is a file")?;
     let current_dir = env::current_dir()?;
 
     //searches for a directory called `dir`
     let found_path = block_on(find_item(
         current_dir.into(),
-        "dir".to_string(),
+        "hello.txt".to_string(),
         ItemType::Directory,
-    ))?
-    .unwrap();
+    ))?;
 
     println!("{:?}", found_path);
     Ok(())

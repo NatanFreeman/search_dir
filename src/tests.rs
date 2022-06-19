@@ -11,7 +11,6 @@ fn compiles() {
 #[test]
 fn runs() {
     let path = std::env::current_dir().unwrap();
-
     let _data_path = block_on(find_item(path.into(), "".to_string(), ItemType::Either));
 }
 #[test]
@@ -45,7 +44,6 @@ fn fails_to_find_file() {
         path.into(),
         "not_a_file".to_string(),
         ItemType::File,
-    ))
-    .unwrap();
-    assert!(result.is_none());
+    ));
+    assert!(result.is_err());
 }
