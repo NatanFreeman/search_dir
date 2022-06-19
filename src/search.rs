@@ -24,7 +24,7 @@ pub enum ItemType {
 /// * the `item` does not exist.
 /// * any other IO error.
 #[async_recursion]
-pub async fn find_item(dir: PathBuf, child: String, item_type: ItemType) -> Result<String> {
+pub async fn find_item(dir: PathBuf, child: String, item_type: ItemType) -> Result<Option<String>> {
     let mut files = async_std::fs::read_dir(dir).await?.into_stream();
     //all the found folders in the current directory
     let mut folders = Vec::new();
@@ -35,16 +35,16 @@ pub async fn find_item(dir: PathBuf, child: String, item_type: ItemType) -> Resu
             match item_type {
                 ItemType::File => {
                     if path.is_file().await {
-                        return Ok(path.to_str().unwrap().to_string());
+                        return Ok(Some(path.to_str().unwrap().to_string()));
                     }
                 }
                 ItemType::Directory => {
                     if path.is_dir().await {
-                        return Ok(path.to_str().unwrap().to_string());
+                        return Ok(Some(path.to_str().unwrap().to_string()));
                     }
                 }
                 ItemType::Either => {
-                    return Ok(path.to_str().unwrap().to_string());
+                    return Ok(Some(path.to_str().unwrap().to_string()));
                 }
             }
         }
@@ -54,11 +54,8 @@ pub async fn find_item(dir: PathBuf, child: String, item_type: ItemType) -> Resu
         }
     }
     if folders.is_empty() {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::NotFound,
-            format!("item `{}` not found", child),
-        ));
+        return Ok(None);
     }
-    let result: String = select_ok(folders).await?.0;
+    let result = select_ok(folders).await?.0;
     Ok(result)
 }

@@ -45,6 +45,7 @@ fn fails_to_find_file() {
         path.into(),
         "not_a_file".to_string(),
         ItemType::File,
-    ));
-    assert!(result.is_err());
+    ))
+    .unwrap();
+    assert!(result.is_none());
 }
