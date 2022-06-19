@@ -3,6 +3,9 @@ name = "search_dir"
 version = "0.1.0"
 edition = "2021"
 authors = ["Natan"]
+license = "Apache-2.0"
+keywords = ["search", "directory", "find", "folder", "files"]
+categories = ["algorithms", "filesystem"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
