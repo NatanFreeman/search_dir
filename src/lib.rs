@@ -6,18 +6,18 @@ use futures::{future::select_ok, TryStreamExt};
 
 //super fancy async recursion for finding the `data` folder
 #[async_recursion]
-pub async fn find_folder(path: PathBuf) -> Result<String> {
+pub async fn find_folder(path: PathBuf, folder_name: String) -> Result<String> {
     let mut files = async_std::fs::read_dir(path.clone()).await?.into_stream();
     //all the found folders in the current directory
     let mut folders = Vec::new();
     while let Some(path) = files.try_next().await? {
         let path = async_std::fs::DirEntry::path(&path);
         if path.is_dir().await {
-            if path.file_name().unwrap().to_str().unwrap() == "build" {
+            if path.file_name().unwrap().to_str().unwrap() == &folder_name {
                 return Ok(path.to_str().unwrap().to_string());
             }
             //recursively adds all the folders inside the folder to `folders`
-            folders.push(find_folder(path.clone()));
+            folders.push(find_folder(path.clone(), folder_name.clone()));
         }
     }
     if folders.is_empty() {
@@ -43,8 +43,7 @@ mod tests {
         use futures::executor::block_on;
         let path = std::env::current_dir().unwrap();
 
-        let data_path = block_on(find_folder(path.into()));
-        println!("{:?}", data_path);
+        let _data_path = block_on(find_folder(path.into(), "".to_string()));
     }
     #[test]
     fn finds_folder() {
@@ -52,7 +51,6 @@ mod tests {
         use futures::executor::block_on;
         let path = std::env::current_dir().unwrap();
 
-        let data_path = block_on(find_folder(path.into()));
-        println!("{}", data_path.unwrap());
+        let _data_path = block_on(find_folder(path.into(), "build".to_string())).unwrap();
     }
 }
