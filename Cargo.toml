@@ -1,6 +1,6 @@
 [package]
 name = "search_dir"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Natan"]
 keywords = ["search", "directory", "find", "folder", "files"]
@@ -14,5 +14,9 @@ description="A Rust library for finding the first matching item in a directory."
 
 [dependencies]
 async-std = "1.12.0"
-futures="0.3.21"
 async-recursion = "1.0.0"
+futures="0.3.21"
+
+[dev-dependencies]
+rand = "0.8.5"
+rand_chacha = "0.3.1"
