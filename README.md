@@ -8,33 +8,30 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-futures="^0.3.21"
-search_dir = "0.1"
+search_dir = "0.1.2"
 ```
 
 ## Example
 
 ```rust
-use futures::executor::block_on;
-use search_dir::search::{find_item, ItemType};
-use std::env;
 use std::fs;
+use std::env;
+use std::error::Error;
+use search_dir::search::{ItemType, find_item};
 
-fn main() -> std::io::Result<()> {
-    //creates directory we want to search
-    fs::create_dir_all("./some/awesome/really/cool/")?;
-    fs::write("./some/awesome/really/cool/hello.txt", "this is a file")?;
-    let current_dir = env::current_dir()?;
+fn main()->Result<(), Box<dyn Error>> {
+   //creates directory we want to search
+   fs::create_dir_all("./some/awesome/really/cool/")?;
+   fs::write("./some/awesome/really/cool/hello.txt", "this is a file")?;
+   let mut current_dir = env::current_dir()?;
 
-    //searches for a directory called `dir`
-    let found_path = block_on(find_item(
-        current_dir.into(),
-        "hello.txt".to_string(),
-        ItemType::Directory,
-    ))?;
+   //searches for a file called `hello.txt`
+   let found_path = find_item(&current_dir, "hello.txt", ItemType::File)?;
 
-    println!("{:?}", found_path);
-    Ok(())
+   println!("{:?}", found_path);
+   current_dir.push("some");
+   fs::remove_dir_all(current_dir)?;
+   Ok(())
 }
 ```
 
