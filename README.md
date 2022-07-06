@@ -1,3 +1,5 @@
+[![Rust](https://github.com/NatanFreeman/search_dir/actions/workflows/rust.yml/badge.svg)](https://github.com/NatanFreeman/search_dir/actions/workflows/rust.yml)
+
 # search_dir
 
 A Rust library for finding the first matching item in a directory.
