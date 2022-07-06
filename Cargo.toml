@@ -10,7 +10,6 @@ repository = "https://github.com/NatanFreeman/search_dir"
 license = "Apache-2.0"
 license-file = "LICENCE"
 description="A Rust library for finding the first matching item in a directory."
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 async-std = "1.12.0"

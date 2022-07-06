@@ -7,13 +7,34 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "Debug doc tests in library 'search_dir'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--doc",
+                    "--",
+                    "--show-output"
+                ],
+                "filter": {
+                    "name": "search_dir",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "Debug unit tests in library 'search_dir'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
                     "--lib",
-                    "--package=search_dir"
+                    "--package=search_dir",
+                    "--",
+                    "--nocapture"
                 ],
                 "filter": {
                     "name": "search_dir",
