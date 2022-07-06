@@ -30,7 +30,6 @@
 //!
 //!   println!("{:?}", found_path);
 //!   current_dir.push("some");
-//!   fs::remove_dir_all(current_dir)?;
 //!   Ok(())
 //!}
 //!```
